@@ -87,6 +87,11 @@ impl fmt::Display for Block {
     }
 }
 
+// Define the structure of the blockchain
+struct Blockchain {
+    chain: Vec<Block>, // Vector to hold blocks in the chain
+}
+
 fn main() {
     println!("Welcome to CABOTCOIN Mining Simulator!");
 }
