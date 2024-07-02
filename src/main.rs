@@ -115,6 +115,61 @@ impl Blockchain {
     }
 }
 
+// Main function for the blockchain simulation
 fn main() {
-    println!("Welcome to CABOTCOIN Mining Simulator!");
+    println!("🚀 Welcome to Bekcoin Mining Simulator! 🚀");
+
+    // Prompt user for miner name
+    println!("👷 Enter your miner name: ");
+    let mut miner_name = String::new();
+    std::io::stdin()
+        .read_line(&mut miner_name)
+        .expect("Failed to read input");
+    miner_name = miner_name.trim().to_string(); // Trim whitespace from input
+
+    // Initialize a list of imaginary trader names
+    let trader_names = vec![
+        "Bob", "Linda", "John", "Omar", "Eve", "Svetlana", "Grace", "Jiro",
+    ];
+
+    // Initialize a new blockchain
+    let mut bekcoin = Blockchain::new();
+
+    // Start mining blocks and simulating transactions
+    println!("\n⛏️  Let's start mining and simulating transactions!\n");
+    let mut sender = miner_name.clone();
+    for i in 0..trader_names.len() {
+        println!("🧱 Mining block {}...⛏️", i + 1);
+        let recipient = if i < trader_names.len() - 1 {
+            trader_names[i + 1].to_string()
+        } else {
+            miner_name.clone() // Last transaction goes back to the miner
+        };
+        let transaction = format!("{} sent to {}", sender, recipient);
+        let new_block = Block::new((i + 1) as u32, String::new(), transaction.clone());
+        bekcoin.add_block(new_block);
+        println!("✉️ Transaction: {}", transaction); // Display transaction
+        sender = recipient; // Update sender for the next transaction
+        println!();
+    }
+
+    // Calculate the total number of blocks added to the blockchain
+    let total_blocks = bekcoin.get_total_blocks();
+    println!("✅ Total blocks added to the blockchain: {}", total_blocks);
+
+    // Calculate an arbitrary amount of Bekcoin traded (e.g., 10 Bekcoin per block)
+    let bekcoin_per_block: usize = 137;
+    let bekcoin_traded = total_blocks * bekcoin_per_block;
+    println!("💰 Total Bekcoin traded: {} Bekcoin", bekcoin_traded);
+
+    // Display timestamp of simulation end
+    let end_timestamp = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("Time went backwards")
+        .as_secs();
+    let end_datetime = chrono::NaiveDateTime::from_timestamp(end_timestamp as i64, 0);
+    println!("🕒 Simulation ended at: {}", end_datetime);
+
+    // Print message when mining operation is completed
+    println!("🎉 Congrats! Mining operation completed successfully!");
 }
