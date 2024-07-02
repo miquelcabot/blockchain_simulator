@@ -117,7 +117,7 @@ impl Blockchain {
 
 // Main function for the blockchain simulation
 fn main() {
-    println!("🚀 Welcome to Bekcoin Mining Simulator! 🚀");
+    println!("🚀 Welcome to Cabotcoin Mining Simulator! 🚀");
 
     // Prompt user for miner name
     println!("👷 Enter your miner name: ");
@@ -133,7 +133,7 @@ fn main() {
     ];
 
     // Initialize a new blockchain
-    let mut bekcoin = Blockchain::new();
+    let mut cabotcoin = Blockchain::new();
 
     // Start mining blocks and simulating transactions
     println!("\n⛏️  Let's start mining and simulating transactions!\n");
@@ -147,20 +147,20 @@ fn main() {
         };
         let transaction = format!("{} sent to {}", sender, recipient);
         let new_block = Block::new((i + 1) as u32, String::new(), transaction.clone());
-        bekcoin.add_block(new_block);
+        cabotcoin.add_block(new_block);
         println!("✉️ Transaction: {}", transaction); // Display transaction
         sender = recipient; // Update sender for the next transaction
         println!();
     }
 
     // Calculate the total number of blocks added to the blockchain
-    let total_blocks = bekcoin.get_total_blocks();
+    let total_blocks = cabotcoin.get_total_blocks();
     println!("✅ Total blocks added to the blockchain: {}", total_blocks);
 
-    // Calculate an arbitrary amount of Bekcoin traded (e.g., 10 Bekcoin per block)
-    let bekcoin_per_block: usize = 137;
-    let bekcoin_traded = total_blocks * bekcoin_per_block;
-    println!("💰 Total Bekcoin traded: {} Bekcoin", bekcoin_traded);
+    // Calculate an arbitrary amount of Cabotcoin traded (e.g., 10 Cabotcoin per block)
+    let cabotcoin_per_block: usize = 137;
+    let cabotcoin_traded = total_blocks * cabotcoin_per_block;
+    println!("💰 Total Cabotcoin traded: {} Cabotcoin", cabotcoin_traded);
 
     // Display timestamp of simulation end
     let end_timestamp = SystemTime::now()
