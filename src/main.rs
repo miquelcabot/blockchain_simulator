@@ -104,7 +104,8 @@ impl Blockchain {
     }
 
     // Method to add a new block to the blockchain
-    fn add_block(&mut self, mut new_block: Block) {
+    fn add_block(&mut self, data: String) {
+        let mut new_block = Block::new((self.chain.len() + 1) as u32, data);
         let previous_hash = self.chain.last().unwrap().hash.clone(); // Get hash of the previous block
         new_block.previous_hash = previous_hash; // Set the previous hash of the new block
         new_block.mine_block_with_visual_effects(); // Mine the new block
@@ -148,8 +149,7 @@ fn main() {
             miner_name.clone() // Last transaction goes back to the miner
         };
         let transaction = format!("{} sent to {}", sender, recipient);
-        let new_block = Block::new((i + 1) as u32, transaction.clone());
-        cabotcoin.add_block(new_block);
+        cabotcoin.add_block(transaction.clone());
         println!("📩 Transaction: {}", transaction); // Display transaction
         sender = recipient; // Update sender for the next transaction
         println!();
