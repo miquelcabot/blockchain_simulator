@@ -92,6 +92,29 @@ struct Blockchain {
     chain: Vec<Block>, // Vector to hold blocks in the chain
 }
 
+impl Blockchain {
+    // Constructor for creating a new blockchain with a genesis block
+    fn new() -> Blockchain {
+        let genesis_block = Block::new(0, String::new(), String::from("Genesis Block"));
+        Blockchain {
+            chain: vec![genesis_block], // Initialize chain with the genesis block
+        }
+    }
+
+    // Method to add a new block to the blockchain
+    fn add_block(&mut self, mut new_block: Block) {
+        let previous_hash = self.chain.last().unwrap().hash.clone(); // Get hash of the previous block
+        new_block.previous_hash = previous_hash; // Set the previous hash of the new block
+        new_block.mine_block_with_visual_effects(); // Mine the new block
+        self.chain.push(new_block); // Add the mined block to the chain
+    }
+
+    // Method to get the total number of blocks in the blockchain
+    fn get_total_blocks(&self) -> usize {
+        self.chain.len()
+    }
+}
+
 fn main() {
     println!("Welcome to CABOTCOIN Mining Simulator!");
 }
