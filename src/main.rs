@@ -68,7 +68,7 @@ impl Block {
             }
             // If the iterations exceed a certain limit, print the calculated hash and pause for visual effect
             if iterations > 100 {
-                print!("⏳ Mining in progress... ");
+                print!("⏳ Mining in progress...");
                 thread::sleep(Duration::from_millis(3000));
                 println!("Calculated hash: {}", self.hash);
                 break;
