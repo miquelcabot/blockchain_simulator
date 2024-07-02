@@ -1,48 +1,56 @@
+// Blockchain Simulation Program
+
 use sha2::{Digest, Sha256};
 use std::fmt;
 use std::iter;
 use std::thread;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
-// Define difficulty of the mining process
+// Define the difficulty of mining (number of leading zeros required in hash)
 const DIFFICULTY: usize = 2;
 
 // Define the structure of a block in the blockchain
 struct Block {
-    index: u32,
-    previous_hash: String,
-    timestamp: u64,
-    data: String,
-    nonce: u64,
-    hash: String,
+    index: u32,            // Index of the block in the chain
+    previous_hash: String, // Hash of the previous block
+    timestamp: u64,        // Timestamp of block creation
+    data: String,          // Data stored in the block
+    nonce: u64,            // Nonce used for mining
+    hash: String,          // Hash of the current block
 }
 
 impl Block {
+    // Constructor for creating a new block
     fn new(index: u32, previous_hash: String, data: String) -> Block {
+        // Get the current timestamp in seconds since UNIX epoch
         let timestamp = SystemTime::now()
             .duration_since(UNIX_EPOCH)
             .expect("Time went backwards")
             .as_secs();
         Block {
-            index,
-            previous_hash,
-            timestamp,
-            data,
-            nonce: 0,
-            hash: String::new(),
+            index,               // Set the index
+            previous_hash,       // Set the previous hash
+            timestamp,           // Set the timestamp
+            data,                // Set the data
+            nonce: 0,            // Initialize nonce to 0
+            hash: String::new(), // Initialize hash to empty string
         }
     }
 
+    // Method to calculate the hash of the block
     fn calculate_hash(&mut self) -> String {
+        // Concatenate block attributes into a single string
         let data = format!(
-            "{}{}{}{}{}",
+            "{}{}{}{}{}", // Format string with index, previous_hash, timestamp, data, nonce
             self.index, &self.previous_hash, self.timestamp, &self.data, self.nonce
         );
 
+        // Create a SHA-256 hasher and update it with block data
         let mut hasher = Sha256::new();
         hasher.update(data.as_bytes());
         let result = hasher.finalize();
 
+        // Format the hash result as a hexadecimal string and return
         let hash_str = format!("{:x}", result);
         hash_str
     }
