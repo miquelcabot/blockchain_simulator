@@ -2,7 +2,6 @@
 
 use sha2::{Digest, Sha256};
 use std::fmt;
-use std::iter;
 use std::thread;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
@@ -82,7 +81,7 @@ impl Block {
 // Implementing formatting for Block structure to allow printing
 impl fmt::Display for Block {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let datetime = chrono::NaiveDateTime::from_timestamp(self.timestamp as i64, 0);
+        let datetime = chrono::DateTime::<chrono::Utc>::from_utc(chrono::NaiveDateTime::from_timestamp(self.timestamp as i64, 0), chrono::Utc);
         write!(f, "Block {}: {} at {}", self.index, self.data, datetime)
     }
 }
