@@ -1,5 +1,6 @@
 use sha2::{Digest, Sha256};
 use std::fmt;
+use std::iter;
 use std::thread;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
@@ -44,6 +45,29 @@ impl Block {
 
         let hash_str = format!("{:x}", result);
         hash_str
+    }
+
+    // Method to mine the block with visual effects
+    fn mine_block_with_visual_effects(&mut self) {
+        let mut iterations = 0; // Initialize iterations counter
+        loop {
+            self.hash = self.calculate_hash(); // Calculate the hash of the block
+            iterations += 1; // Increment iterations counter
+                             // Check if the hash meets the difficulty requirement
+            if !self.hash.is_empty() && &self.hash[..DIFFICULTY] == "00".repeat(DIFFICULTY) {
+                // Print a message indicating successful block mining
+                println!("⛏️ Block mined: {}", self.index);
+                break; // Exit the loop
+            }
+            // If the iterations exceed a certain limit, print the calculated hash and pause for visual effect
+            if iterations > 100 {
+                print!("⏳ Mining in progress... ");
+                thread::sleep(Duration::from_millis(3000));
+                println!("Calculated hash: {}", self.hash);
+                break;
+            }
+            self.nonce += 1; // Increment the nonce for the next iteration
+        }
     }
 }
 
