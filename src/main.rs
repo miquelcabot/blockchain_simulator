@@ -20,19 +20,19 @@ struct Block {
 
 impl Block {
     // Constructor for creating a new block
-    fn new(index: u32, previous_hash: String, data: String) -> Block {
+    fn new(index: u32, data: String) -> Block {
         // Get the current timestamp in seconds since UNIX epoch
         let timestamp = SystemTime::now()
             .duration_since(UNIX_EPOCH)
             .expect("Time went backwards")
             .as_secs();
         Block {
-            index,               // Set the index
-            previous_hash,       // Set the previous hash
-            timestamp,           // Set the timestamp
-            data,                // Set the data
-            nonce: 0,            // Initialize nonce to 0
-            hash: String::new(), // Initialize hash to empty string
+            index,                        // Set the index
+            previous_hash: String::new(), // Set the previous hash
+            timestamp,                    // Set the timestamp
+            data,                         // Set the data
+            nonce: 0,                     // Initialize nonce to 0
+            hash: String::new(),          // Initialize hash to empty string
         }
     }
 
@@ -81,7 +81,10 @@ impl Block {
 // Implementing formatting for Block structure to allow printing
 impl fmt::Display for Block {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let datetime = chrono::DateTime::<chrono::Utc>::from_utc(chrono::NaiveDateTime::from_timestamp(self.timestamp as i64, 0), chrono::Utc);
+        let datetime = chrono::DateTime::<chrono::Utc>::from_utc(
+            chrono::NaiveDateTime::from_timestamp(self.timestamp as i64, 0),
+            chrono::Utc,
+        );
         write!(f, "Block {}: {} at {}", self.index, self.data, datetime)
     }
 }
@@ -94,7 +97,7 @@ struct Blockchain {
 impl Blockchain {
     // Constructor for creating a new blockchain with a genesis block
     fn new() -> Blockchain {
-        let genesis_block = Block::new(0, String::new(), String::from("Genesis Block"));
+        let genesis_block = Block::new(0, String::from("Genesis Block"));
         Blockchain {
             chain: vec![genesis_block], // Initialize chain with the genesis block
         }
@@ -145,7 +148,7 @@ fn main() {
             miner_name.clone() // Last transaction goes back to the miner
         };
         let transaction = format!("{} sent to {}", sender, recipient);
-        let new_block = Block::new((i + 1) as u32, String::new(), transaction.clone());
+        let new_block = Block::new((i + 1) as u32, transaction.clone());
         cabotcoin.add_block(new_block);
         println!("✉️ Transaction: {}", transaction); // Display transaction
         sender = recipient; // Update sender for the next transaction
