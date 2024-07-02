@@ -37,7 +37,7 @@ impl Block {
     }
 
     // Method to calculate the hash of the block
-    fn calculate_hash(&mut self) -> String {
+    fn calculate_hash(&self) -> String {
         // Concatenate block attributes into a single string
         let data = format!(
             "{}{}{}{}{}", // Format string with index, previous_hash, timestamp, data, nonce
@@ -61,7 +61,7 @@ impl Block {
             self.hash = self.calculate_hash(); // Calculate the hash of the block
             iterations += 1; // Increment iterations counter
                              // Check if the hash meets the difficulty requirement
-            if !self.hash.is_empty() && &self.hash[..DIFFICULTY] == "00".repeat(DIFFICULTY) {
+            if !self.hash.is_empty() && &self.hash[..DIFFICULTY] == "0".repeat(DIFFICULTY) {
                 // Print a message indicating successful block mining
                 println!("⛏️ Block mined: {}", self.index);
                 break; // Exit the loop
