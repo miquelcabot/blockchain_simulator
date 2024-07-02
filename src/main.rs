@@ -150,7 +150,7 @@ fn main() {
         let transaction = format!("{} sent to {}", sender, recipient);
         let new_block = Block::new((i + 1) as u32, transaction.clone());
         cabotcoin.add_block(new_block);
-        println!("✉️ Transaction: {}", transaction); // Display transaction
+        println!("📩 Transaction: {}", transaction); // Display transaction
         sender = recipient; // Update sender for the next transaction
         println!();
     }
