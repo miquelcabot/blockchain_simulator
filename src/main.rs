@@ -79,6 +79,14 @@ impl Block {
     }
 }
 
+// Implementing formatting for Block structure to allow printing
+impl fmt::Display for Block {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let datetime = chrono::NaiveDateTime::from_timestamp(self.timestamp as i64, 0);
+        write!(f, "Block {}: {} at {}", self.index, self.data, datetime)
+    }
+}
+
 fn main() {
     println!("Welcome to CABOTCOIN Mining Simulator!");
 }
